@@ -202,3 +202,5 @@ print(tc)
 # Final Summary  
 
 Floods are the most costly weather event in all respects.  Huricanes, tornadoes, heat and ice storms are all very costly as well. 
+
+The RPub document is [here](http://rpubs.com/andersjh/repo_weather_data)

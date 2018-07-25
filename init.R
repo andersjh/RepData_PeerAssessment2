@@ -9,7 +9,7 @@ if (!file.exists("StormData.csv")) {
   bunzip2("StormData.csv.bz2")
 }
 
-#raw.data = read.table("StormData.csv", sep=",", header = T, stringsAsFactors = F)
+straw.data = read.table("StormData.csv", sep=",", header = T, stringsAsFactors = F)
 base.data = raw.data %>%
     select(BGN_DATE,EVTYPE,FATALITIES,INJURIES,PROPDMG,PROPDMGEXP,CROPDMG,CROPDMGEXP) %>%
     filter(FATALITIES>0 | INJURIES>0 | PROPDMG>0, CROPDMG>0)
@@ -74,4 +74,27 @@ sum.cost = sum.data %>%
   select(EVTYPE, TOTAL_COST_BILLIONS) %>%
   arrange(desc(TOTAL_COST_BILLIONS), EVTYPE)
 
+tf = ggplot(data=sum.fatalities[1:10,], 
+       aes(x=reorder(EVTYPE, -TOTAL_FATALITIES), y=TOTAL_FATALITIES))+
+  geom_col(fill="darkred")+
+  theme(axis.text.x=element_text(angle = -90, hjust = 0))+
+  labs(title="Fatalities by Weather Event", x="Weather Event", y="Number of Fatalities")
+
+ti = ggplot(data=sum.injuries[1:10,], 
+       aes(x=reorder(EVTYPE, -TOTAL_INJURIES), y=TOTAL_INJURIES))+
+  geom_col(fill="darkblue")+
+  theme(axis.text.x=element_text(angle = -90, hjust = 0))+
+  labs(title="Injuries by Weather Event", x="Weather Event", y="Number of Injuries")
+
+tc = ggplot(data=sum.cost[1:10,], 
+       aes(x=reorder(EVTYPE, -TOTAL_COST_BILLIONS), y=TOTAL_COST_BILLIONS))+
+  geom_col(fill="darkgreen")+
+  theme(axis.text.x=element_text(angle = -90, hjust = 0))+
+  labs(title="Costs (Billions) by Weather Event", 
+       x="Weather Event", 
+       y="Property/Crop Cost (Billions)")
+
+print(tf)
+print(ti)
+print(tc)
 
